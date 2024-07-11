@@ -4,6 +4,7 @@ using SpauldingRidgeSalesForecastingNazneen.Contexts;
 using SpauldingRidgeSalesForecastingNazneen.Models;
 using SpauldingRidgeSalesForecastingNazneen.ViewModels;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace SpauldingRidgeSalesForecastingNazneen.Controllers
@@ -72,6 +73,21 @@ namespace SpauldingRidgeSalesForecastingNazneen.Controllers
             }
 
             return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult DownloadCsv(SalesQueryViewModel model)
+        {
+            var salesData = model.SalesData;
+            var builder = new StringBuilder();
+            builder.AppendLine("State,Percentage Increase,Sales Value");
+
+            foreach (var sale in salesData)
+            {
+                builder.AppendLine($"{sale.State},{model.Percentage},{sale.IncrementedSales}");
+            }
+
+            return File(Encoding.UTF8.GetBytes(builder.ToString()), "text/csv", "forecasted_sales.csv");
         }
     }
 }

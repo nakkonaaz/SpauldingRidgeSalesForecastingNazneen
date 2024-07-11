@@ -41,10 +41,11 @@
     <form asp-action="Index" method="post">
         <input type="hidden" asp-for="Year" />
         <input type="hidden" asp-for="TotalSales" />
-        @foreach (var item in Model.SalesData)
+        @for (int i = 0; i < Model.SalesData.Count; i++)
         {
-            <input type="hidden" name="SalesData[@item.State].State" value="@item.State" />
-            <input type="hidden" name="SalesData[@item.State].TotalSales" value="@item.TotalSales" />
+            <input type="hidden" name="SalesData[@i].State" value="@Model.SalesData[i].State" />
+            <input type="hidden" name="SalesData[@i].TotalSales" value="@Model.SalesData[i].TotalSales" />
+            <input type="hidden" name="SalesData[@i].IncrementedSales" value="@Model.SalesData[i].IncrementedSales" />
         }
 
         <div class="form-group">
@@ -57,5 +58,18 @@
     @if (Model.TotalIncrementedSales > 0)
     {
         <h3>Total Incremented Sales: @Model.TotalIncrementedSales</h3>
+
+        <form asp-action="DownloadCsv" method="post">
+            <input type="hidden" asp-for="Year" />
+            <input type="hidden" asp-for="TotalSales" />
+            <input type="hidden" asp-for="Percentage" />
+            @for (int i = 0; i < Model.SalesData.Count; i++)
+            {
+                <input type="hidden" name="SalesData[@i].State" value="@Model.SalesData[i].State" />
+                <input type="hidden" name="SalesData[@i].TotalSales" value="@Model.SalesData[i].TotalSales" />
+                <input type="hidden" name="SalesData[@i].IncrementedSales" value="@Model.SalesData[i].IncrementedSales" />
+            }
+            <button type="submit" class="btn btn-secondary">Download CSV</button>
+        </form>
     }
 }
