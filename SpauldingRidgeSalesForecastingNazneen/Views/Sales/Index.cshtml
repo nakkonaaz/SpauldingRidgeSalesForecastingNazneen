@@ -23,6 +23,7 @@
             <tr>
                 <th>State</th>
                 <th>Total Sales</th>
+                <th>Incremented Sales</th>
             </tr>
         </thead>
         <tbody>
@@ -31,8 +32,30 @@
                 <tr>
                     <td>@item.State</td>
                     <td>@item.TotalSales</td>
+                    <td>@item.IncrementedSales</td>
                 </tr>
             }
         </tbody>
     </table>
+
+    <form asp-action="Index" method="post">
+        <input type="hidden" asp-for="Year" />
+        <input type="hidden" asp-for="TotalSales" />
+        @foreach (var item in Model.SalesData)
+        {
+            <input type="hidden" name="SalesData[@item.State].State" value="@item.State" />
+            <input type="hidden" name="SalesData[@item.State].TotalSales" value="@item.TotalSales" />
+        }
+
+        <div class="form-group">
+            <label for="percentage">Percentage Increment</label>
+            <input type="number" step="0.01" class="form-control" id="percentage" name="percentage" asp-for="Percentage" required />
+        </div>
+        <button type="submit" class="btn btn-primary">Apply Increment</button>
+    </form>
+
+    @if (Model.TotalIncrementedSales > 0)
+    {
+        <h3>Total Incremented Sales: @Model.TotalIncrementedSales</h3>
+    }
 }
