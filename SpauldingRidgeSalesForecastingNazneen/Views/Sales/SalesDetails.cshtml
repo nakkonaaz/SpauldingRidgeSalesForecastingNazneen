@@ -1,0 +1,27 @@
+﻿@model IEnumerable<SpauldingRidgeSalesForecastingNazneen.ViewModels.SalesViewModel>
+
+@{
+    ViewData["Title"] = "Sales Details";
+}
+
+<h2>Sales Details</h2>
+
+<p>Total Sales: @ViewBag.TotalSales</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>State</th>
+            <th>Total Sales</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.State</td>
+                <td>@item.TotalSales</td>
+            </tr>
+        }
+    </tbody>
+</table>

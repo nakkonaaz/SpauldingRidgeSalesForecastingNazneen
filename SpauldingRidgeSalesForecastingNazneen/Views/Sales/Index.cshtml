@@ -1,0 +1,13 @@
+﻿@{
+    ViewData["Title"] = "Sales Index";
+}
+
+<h2>Sales Index</h2>
+
+<form asp-action="Index" method="post">
+    <div class="form-group">
+        <label for="year">Year</label>
+        <input type="number" class="form-control" id="year" name="year" required />
+    </div>
+    <button type="submit" class="btn btn-primary">Get Sales</button>
+</form>

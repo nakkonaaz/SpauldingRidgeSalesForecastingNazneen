@@ -1,0 +1,37 @@
+﻿@model IEnumerable<SpauldingRidgeSalesForecastingNazneen.ViewModels.SalesViewModel>
+
+@{
+    ViewData["Title"] = "Sales Increment Details";
+}
+
+<h2>Sales Increment Details</h2>
+
+<form asp-action="ApplyIncrement" method="post">
+    <div class="form-group">
+        <label for="percentage">Percentage Increment</label>
+        <input type="number" class="form-control" id="percentage" name="percentage" required />
+    </div>
+    <button type="submit" class="btn btn-primary">Apply Increment</button>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>State</th>
+            <th>Total Sales</th>
+            <th>Incremented Sales</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.State</td>
+                <td>@item.TotalSales</td>
+            </tr>
+        }
+    </tbody>
+</table>
+<form asp-action="DownloadCsv" method="post">
+    <button type="submit" class="btn btn-primary">Download CSV</button>
+</form>
