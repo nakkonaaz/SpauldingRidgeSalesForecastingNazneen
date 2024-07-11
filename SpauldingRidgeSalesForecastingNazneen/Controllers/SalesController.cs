@@ -20,18 +20,18 @@ namespace SpauldingRidgeSalesForecastingNazneen.Controllers
         // GET: Sales
         public IActionResult Index()
         {
-            return View();
+            return View(new SalesQueryViewModel());
         }
 
         [HttpPost]
-        public async Task<IActionResult> Index(int year)
+        public async Task<IActionResult> Index(SalesQueryViewModel model)
         {
             var salesData = await _context.Orders
                 .Join(_context.Products,
                       order => order.OrderId,
                       product => product.OrderId,
                       (order, product) => new { order, product })
-                .Where(x => x.order.OrderDate.Year == year)
+                .Where(x => x.order.OrderDate.Year == model.Year)
                 .GroupBy(x => x.order.State)
                 .Select(g => new SalesViewModel
                 {
@@ -48,15 +48,16 @@ namespace SpauldingRidgeSalesForecastingNazneen.Controllers
                       combined => combined.order.OrderId,
                       product => product.OrderId,
                       (combined, product) => new { combined.returnOrder, combined.order, product })
-                .Where(x => x.order.OrderDate.Year == year)
+                .Where(x => x.order.OrderDate.Year == model.Year)
                 .SumAsync(x => x.product.Sales);
 
             // Calculate total sales
             var totalSales = salesData.Sum(x => x.TotalSales);
             var finalSales = totalSales - returnsData;
 
-            ViewBag.TotalSales = finalSales;
-            return View("SalesDetails", salesData);
+            model.TotalSales = finalSales;
+            model.SalesData = salesData;
+            return View(model);
         }
     }
 }
