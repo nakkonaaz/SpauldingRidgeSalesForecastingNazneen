@@ -72,10 +72,16 @@
             <button type="submit" class="btn btn-secondary"><i class="bi bi-download"></i> Download CSV</button>
         </form>
 
-        <form asp-action="SalesChart" method="get">
+        <form asp-action="chart" method="get">
             <input type="hidden" asp-for="Year" value="@Model.Year" />
             <input type="hidden" asp-for="Percentage" value="@Model.Percentage" />
             <button type="submit" class="btn btn-info mt-3"><i class="bi bi-bar-chart"></i> View Chart</button>
+        </form>
+
+        <form asp-action="BreakdownChart" method="get">
+            <input type="hidden" asp-for="Year" value="@Model.Year" />
+            <input type="hidden" asp-for="Percentage" value="@Model.Percentage" />
+            <button type="submit" class="btn btn-info mt-3"><i class="bi bi-pie-chart"></i> View Breakdown Chart</button>
         </form>
     }
 }

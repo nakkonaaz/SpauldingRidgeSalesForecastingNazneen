@@ -1,0 +1,116 @@
+﻿@model SpauldingRidgeSalesForecastingNazneen.ViewModels.BreakdownChartViewModel
+@using Newtonsoft.Json;
+@{
+    ViewData["Title"] = "Breakdown Sales Chart";
+}
+
+<h2>Sales Charts for Year @Model.Year</h2>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card mb-4 shadow-sm">
+                <div class="card-header">
+                    <h5 class="card-title">Aggregated Sales Chart</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="salesChart" width="600" height="600"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card mb-4 shadow-sm">
+                <div class="card-header">
+                    <h5 class="card-title">Breakdown Sales Chart by State</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="breakdownChart" width="600" height="600"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Aggregated Sales Chart
+            var salesCtx = document.getElementById('salesChart').getContext('2d');
+            var salesChart = new Chart(salesCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Seeding Year Sales', 'Forecasted Year Sales'],
+                    datasets: [{
+                        label: 'Sales',
+                        data: [
+        @Model.SalesData.Sum(x => x.TotalSales),
+        @Model.SalesData.Sum(x => x.IncrementedSales)
+                                ],
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 2,
+                        fill: false,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+            // Breakdown Sales Chart
+            var breakdownCtx = document.getElementById('breakdownChart').getContext('2d');
+            var breakdownChart = new Chart(breakdownCtx, {
+                type: 'bar',
+                data: {
+                    labels: @Html.Raw(JsonConvert.SerializeObject(Model.SalesData.Select(x => x.State).ToList())),
+                    datasets: [{
+                        label: 'Sales',
+                        data: @Html.Raw(JsonConvert.SerializeObject(Model.SalesData.Select(x => x.IncrementedSales).ToList())),
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    },
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function (tooltipItem) {
+                                    return tooltipItem.label + ': ' + tooltipItem.raw.toLocaleString();
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+}

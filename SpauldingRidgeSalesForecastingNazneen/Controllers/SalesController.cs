@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using SpauldingRidgeSalesForecastingNazneen.Contexts;
 using SpauldingRidgeSalesForecastingNazneen.Models;
 using SpauldingRidgeSalesForecastingNazneen.ViewModels;
@@ -72,8 +73,11 @@ namespace SpauldingRidgeSalesForecastingNazneen.Controllers
                 model.TotalIncrementedSales = model.TotalSales * (1 + (model.Percentage / 100));
             }
 
+            TempData["SalesData"] = JsonConvert.SerializeObject(model.SalesData);
+
             return View(model);
         }
+
 
         [HttpPost]
         public IActionResult DownloadCsv(SalesQueryViewModel model)
@@ -89,5 +93,56 @@ namespace SpauldingRidgeSalesForecastingNazneen.Controllers
 
             return File(Encoding.UTF8.GetBytes(builder.ToString()), "text/csv", "forecasted_sales.csv");
         }
+
+        // GET: Sales/Chart
+        public IActionResult Chart(int year, double percentage)
+        {
+            var salesDataJson = TempData["SalesData"] as string;
+            var salesData = salesDataJson != null ? JsonConvert.DeserializeObject<List<SalesViewModel>>(salesDataJson) : null;
+
+            if (salesData == null)
+            {
+                return RedirectToAction("Index");
+            }
+
+            foreach (var item in salesData)
+            {
+                item.IncrementedSales = item.TotalSales * (1 + (percentage / 100));
+            }
+
+            var chartData = new SalesChartViewModel
+            {
+                Year = year,
+                SalesData = salesData
+            };
+
+            return View("Chart", chartData);
+        }
+
+        // GET: Sales/BreakdownChart
+        public IActionResult BreakdownChart(int year, double percentage)
+        {
+            var salesDataJson = TempData["SalesData"] as string;
+            var salesData = salesDataJson != null ? JsonConvert.DeserializeObject<List<SalesViewModel>>(salesDataJson) : null;
+
+            if (salesData == null)
+            {
+                return RedirectToAction("Index");
+            }
+
+            foreach (var item in salesData)
+            {
+                item.IncrementedSales = item.TotalSales * (1 + (percentage / 100));
+            }
+
+            var breakdownChartData = new BreakdownChartViewModel
+            {
+                Year = year,
+                SalesData = salesData
+            };
+
+            return View("BreakdownChart", breakdownChartData);
+        }
+
     }
 }

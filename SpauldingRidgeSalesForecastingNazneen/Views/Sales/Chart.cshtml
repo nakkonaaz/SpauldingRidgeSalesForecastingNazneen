@@ -1,0 +1,39 @@
+﻿@model SpauldingRidgeSalesForecastingNazneen.ViewModels.SalesChartViewModel
+
+@{
+    ViewData["Title"] = "Sales Chart";
+}
+
+<h2>Sales Chart for Year @Model.Year</h2>
+
+<canvas id="salesChart" width="400" height="200"></canvas>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        var ctx = document.getElementById('salesChart').getContext('2d');
+        var salesChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Seeding Year Sales', 'Forecasted Year Sales'],
+                datasets: [{
+                    label: 'Sales',
+                    data: [
+        @Model.SalesData.Sum(x => x.TotalSales),
+        @Model.SalesData.Sum(x => x.IncrementedSales)
+                            ],
+                    backgroundColor: ['rgba(75, 192, 192, 0.2)', 'rgba(54, 162, 235, 0.2)'],
+                    borderColor: ['rgba(75, 192, 192, 1)', 'rgba(54, 162, 235, 1)'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+}
