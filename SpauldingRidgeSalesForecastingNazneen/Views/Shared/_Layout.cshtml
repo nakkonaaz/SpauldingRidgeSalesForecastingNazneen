@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - SpauldingRidgeSalesForecastingNazneen</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.7.2/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="~/css/custom.css" asp-append-version="true" />
@@ -35,18 +35,27 @@
             </div>
         </div>
     </header>
-    <div class="container mt-4">
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
-            </ol>
+    <div class="container mt-1">
+        <nav aria-label="breadcrumb" style="--bs-breadcrumb-divider: '>';">
+            @if (ViewData["Title"].ToString() != "Home")
+            {
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
+                </ol>
+            }
+            else{
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                </ol>
+            }
         </nav>
+
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
-    <footer class="bg-light text-center text-lg-start mt-auto">
+    <footer class="bg-light text-center mt-auto" style="position:absolute; width:100%; ">
         <div class="container p-4">
             <p>&copy; 2024 - SpauldingRidgeSalesForecastingNazneen - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a></p>
         </div>
