@@ -11,18 +11,19 @@
         <label for="year">Year</label>
         <input type="number" class="form-control" id="year" name="year" asp-for="Year" required />
     </div>
-    <button type="submit" class="btn btn-primary">Get Sales</button>
+    <button type="submit" class="btn btn-primary"><i class="bi bi-search"></i> Get Sales</button>
 </form>
 
 @if (Model.SalesData.Any())
 {
     <h3>Total Sales: @Model.TotalSales</h3>
 
-    <table class="table">
+    <table class="table table-striped">
         <thead>
             <tr>
                 <th>State</th>
                 <th>Total Sales</th>
+                <th>Incremented Sales</th>
             </tr>
         </thead>
         <tbody>
@@ -31,8 +32,56 @@
                 <tr>
                     <td>@item.State</td>
                     <td>@item.TotalSales</td>
+                    <td>@item.IncrementedSales</td>
                 </tr>
             }
         </tbody>
     </table>
+
+    <form asp-action="Index" method="post">
+        <input type="hidden" asp-for="Year" />
+        <input type="hidden" asp-for="TotalSales" />
+        @for (int i = 0; i < Model.SalesData.Count; i++)
+        {
+            <input type="hidden" name="SalesData[@i].State" value="@Model.SalesData[i].State" />
+            <input type="hidden" name="SalesData[@i].TotalSales" value="@Model.SalesData[i].TotalSales" />
+            <input type="hidden" name="SalesData[@i].IncrementedSales" value="@Model.SalesData[i].IncrementedSales" />
+        }
+
+        <div class="form-group">
+            <label for="percentage">Percentage Increment</label>
+            <input type="number" step="0.01" class="form-control" id="percentage" name="percentage" asp-for="Percentage" required />
+        </div>
+        <button type="submit" class="btn btn-primary"><i class="bi bi-calculator"></i> Apply Increment</button>
+    </form>
+
+    @if (Model.TotalIncrementedSales > 0)
+    {
+        <h3>Total Incremented Sales: @Model.TotalIncrementedSales</h3>
+
+        <form asp-action="DownloadCsv" method="post">
+            <input type="hidden" asp-for="Year" />
+            <input type="hidden" asp-for="TotalSales" />
+            <input type="hidden" asp-for="Percentage" />
+            @for (int i = 0; i < Model.SalesData.Count; i++)
+            {
+                <input type="hidden" name="SalesData[@i].State" value="@Model.SalesData[i].State" />
+                <input type="hidden" name="SalesData[@i].TotalSales" value="@Model.SalesData[i].TotalSales" />
+                <input type="hidden" name="SalesData[@i].IncrementedSales" value="@Model.SalesData[i].IncrementedSales" />
+            }
+            <button type="submit" class="btn btn-secondary"><i class="bi bi-download"></i> Download CSV</button>
+        </form>
+
+        <form asp-action="chart" method="get">
+            <input type="hidden" asp-for="Year" value="@Model.Year" />
+            <input type="hidden" asp-for="Percentage" value="@Model.Percentage" />
+            <button type="submit" class="btn btn-info mt-3"><i class="bi bi-bar-chart"></i> View Chart</button>
+        </form>
+
+        <form asp-action="BreakdownChart" method="get">
+            <input type="hidden" asp-for="Year" value="@Model.Year" />
+            <input type="hidden" asp-for="Percentage" value="@Model.Percentage" />
+            <button type="submit" class="btn btn-info mt-3"><i class="bi bi-pie-chart"></i> View Breakdown Chart</button>
+        </form>
+    }
 }

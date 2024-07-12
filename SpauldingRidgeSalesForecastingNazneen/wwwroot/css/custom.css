@@ -1,0 +1,69 @@
+﻿/* custom.css */
+
+/* Hero Section Styling */
+.hero-section {
+    background-color: #f8f9fa;
+    padding: 3rem 1rem;
+    text-align: center;
+}
+
+    .hero-section h1 {
+        font-size: 3rem;
+        font-weight: bold;
+        animation: fadeInDown 2s;
+    }
+
+    .hero-section p {
+        font-size: 1.5rem;
+        margin-bottom: 1.5rem;
+        animation: fadeInUp 2s;
+    }
+
+    .hero-section .btn {
+        padding: 0.75rem 1.5rem;
+        font-size: 1.25rem;
+        animation: bounceIn 2s;
+    }
+
+/* Navigation Links Hover Effect */
+.nav-link:hover {
+    background-color: #e9ecef;
+    border-radius: 5px;
+}
+
+/* Table Styling */
+.table thead {
+    background-color: #f8f9fa;
+}
+
+.table tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Form Styling */
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.btn-primary {
+    transition: background-color 0.3s ease;
+}
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
+
+/* Breadcrumb Styling */
+.breadcrumb {
+    background-color: #f8f9fa;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+    border-radius: 0.25rem;
+}
+
+/* Footer Styling */
+footer {
+    background-color: #f8f9fa;
+    padding: 1rem 0;
+    margin-top: 2rem;
+}

@@ -1,22 +1,28 @@
-html {
-  font-size: 14px;
+.container {
+    margin-top: 20px;
 }
 
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+.card {
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+    .card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    }
+
+.card-title {
+    text-align: center;
+    font-weight: bold;
 }
 
-html {
-  position: relative;
-  min-height: 100%;
+.card-body {
+    padding: 20px;
 }
 
-body {
-  margin-bottom: 60px;
+canvas {
+    display: block;
+    margin: 0 auto;
 }
