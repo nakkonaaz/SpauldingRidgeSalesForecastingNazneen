@@ -1,8 +1,33 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Home";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="hero-section text-center bg-light py-5">
+    <div class="container">
+        <h1 class="animated-title">Empower Your Sales Forecasting</h1>
+        <p class="animated-subtitle">Accurate sales forecasting to drive your business forward.</p>
+        <a class="btn btn-dark btn-lg animated-button" asp-controller="Sales" asp-action="Index">Get Your Sales Forecasting</a>
+    </div>
+</div>
+
+<div class="text-center mt-5">
+    <h2 class="display-5">Why Choose Us?</h2>
+    <p>We provide the best tools and techniques to help you forecast your sales accurately.</p>
+    <div class="row mt-4">
+        <div class="col-md-4">
+            <i class="bi bi-bar-chart-line" style="font-size: 2rem;"></i>
+            <h3>Advanced Analytics</h3>
+            <p>Utilize cutting-edge analytics to understand your sales trends.</p>
+        </div>
+        <div class="col-md-4">
+            <i class="bi bi-pie-chart" style="font-size: 2rem;"></i>
+            <h3>Comprehensive Reports</h3>
+            <p>Get detailed reports to make informed decisions.</p>
+        </div>
+        <div class="col-md-4">
+            <i class="bi bi-graph-up" style="font-size: 2rem;"></i>
+            <h3>Growth Forecasting</h3>
+            <p>Predict your business growth with high accuracy.</p>
+        </div>
+    </div>
 </div>
